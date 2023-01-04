@@ -1,10 +1,11 @@
 ﻿
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CDEUnileverAPI.Data
 {
-    public class CDEUnileverDbContext : DbContext
+    public class CDEUnileverDbContext : IdentityDbContext
     {
         public CDEUnileverDbContext(DbContextOptions<CDEUnileverDbContext> options) : base(options) { }
 

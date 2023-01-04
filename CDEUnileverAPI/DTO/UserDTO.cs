@@ -22,8 +22,16 @@ namespace CDEUnileverAPI.DTO
         [Required]
         public string NewPassword { get; set; }
     }
-    public class CreateNewUserDTO : UserDTO
+    public class CreateNewUserDTO
     {
-
+        [Required]
+        public string Email { get; set; }
+    }
+    public class UserLoginDTO
+    {
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Password { get; set; }
     }
 }
