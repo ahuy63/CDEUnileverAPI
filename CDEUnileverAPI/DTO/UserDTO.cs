@@ -17,15 +17,10 @@ namespace CDEUnileverAPI.DTO
         public int ReporterId { get; set; }
         public bool Status { get; set; } = true;
     }
-    public class ChangePasswordUserDTO : UserDTO
+    public class ChangePasswordUserDTO
     {
         [Required]
         public string NewPassword { get; set; }
-    }
-    public class CreateNewUserDTO
-    {
-        [Required]
-        public string Email { get; set; }
     }
     public class UserLoginDTO
     {

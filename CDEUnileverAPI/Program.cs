@@ -4,7 +4,6 @@ using CDEUnileverAPI.Core.Services;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -31,7 +30,7 @@ builder.Services.AddAuthentication(options =>
 
 }).AddJwtBearer(jwt =>
     {
-        var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig").Value);
+        var key = Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
         jwt.SaveToken = true;
         jwt.TokenValidationParameters = new TokenValidationParameters()
         {
@@ -50,8 +49,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(IAreaService), typeof(AreaService));
 builder.Services.AddTransient(typeof(ITitleService), typeof(TitleService));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<CDEUnileverDbContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+//    .AddEntityFrameworkStores<CDEUnileverDbContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

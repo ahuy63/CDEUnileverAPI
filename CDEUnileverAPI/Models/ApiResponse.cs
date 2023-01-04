@@ -4,6 +4,6 @@
     {
         public bool Result { get; set; }
         public string Message { get; set; }
-        public Object Data { get; set; }
+        public Object Token { get; set; }
     }
 }
