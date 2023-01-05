@@ -2,9 +2,12 @@
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
-using Microsoft.AspNetCore.Identity;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -47,7 +50,7 @@ namespace CDEUnileverAPI.Controllers
                     newUser.Password = RandomString(10);
                     _context.Add(newUser);
                     _context.SaveChanges();
-
+                    SendEmail(newUser.Email, newUser.Password);
                     var token = GenerateJwtToken(newUser);
                     return Ok(new ApiResponse
                     {
@@ -89,7 +92,12 @@ namespace CDEUnileverAPI.Controllers
             });
         }
 
-
+        //[HttpPost]
+        //public IActionResult SendMail(string email)
+        //{
+        //    SendEmail(email, RandomString(10));
+        //    return Ok();
+        //}
         private string GenerateJwtToken(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -119,6 +127,25 @@ namespace CDEUnileverAPI.Controllers
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        private void SendEmail(string toEmail, string body)
+        {
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("ahuy.hah@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(toEmail));
+            email.Subject = "Mật khẩu cho tài khoản";
+            email.Body = new TextPart(TextFormat.Html)
+            {
+                Text = "Mật khẩu tạm thời: \n"+body+"\nVui lòng thay đổi mật khẩu"
+            };
+
+            var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("ahuy.hah@gmail.com", "ckystazencahpvnt");
+            smtp.Send(email);
+            smtp.Disconnect(true);
+            smtp.Dispose();
         }
     }
 }
