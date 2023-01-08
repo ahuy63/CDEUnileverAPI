@@ -48,10 +48,6 @@ namespace CDEUnileverAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddArea(AddAreaDTO area)
         {
-            //var mappedArea = _mapper.Map<Area>(area);
-            //mappedArea.Code = "CODx";
-            //_context.Area.Add(mappedArea);
-            //await _context.SaveChangesAsync();
             if (await _areaService.AddArea(area))
             {
                 return Ok() ;
@@ -75,12 +71,6 @@ namespace CDEUnileverAPI.Controllers
             {
                 return BadRequest();
             }
-            
         }
-
-        //private bool AreaExists(int id)
-        //{
-        //    return _context.Area.Any(e => e.Id == id);
-        //}
     }
 }

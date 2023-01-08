@@ -1,8 +1,6 @@
 ﻿using CDEUnileverAPI.Core.IRepositories;
 using CDEUnileverAPI.Data;
-using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CDEUnileverAPI.Core.Repositories
 {

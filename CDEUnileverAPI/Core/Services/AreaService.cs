@@ -3,8 +3,6 @@ using CDEUnileverAPI.Core.IConfiguration;
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CDEUnileverAPI.Core.Services
 {

@@ -48,6 +48,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(IAreaService), typeof(AreaService));
 builder.Services.AddTransient(typeof(ITitleService), typeof(TitleService));
+builder.Services.AddTransient(typeof(IDistributorService), typeof(DistributorService));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
 //    .AddEntityFrameworkStores<CDEUnileverDbContext>();

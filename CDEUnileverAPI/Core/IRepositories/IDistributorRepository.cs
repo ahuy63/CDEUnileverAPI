@@ -2,7 +2,7 @@
 
 namespace CDEUnileverAPI.Core.IRepositories
 {
-    public interface IAreaRepository : IGenericRepository<Area>
+    public interface IDistributorRepository : IGenericRepository<Distributor>
     {
     }
 }

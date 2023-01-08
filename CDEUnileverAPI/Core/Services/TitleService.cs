@@ -3,6 +3,7 @@ using CDEUnileverAPI.Core.IConfiguration;
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CDEUnileverAPI.Core.Services
 {
@@ -39,12 +40,53 @@ namespace CDEUnileverAPI.Core.Services
 
         public Task<Title> GetTitle(int id)
         {
-            throw new NotImplementedException();
+            return _unitOfWork.TitleRepository.GetById(id);
         }
 
-        public Task<bool> DeleteTitle(int id)
+        public async Task<bool> DeleteTitle(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var title = await _unitOfWork.TitleRepository.GetById(id);
+                if (title != null)
+                {
+                    if (await _unitOfWork.TitleRepository.Delete(title))
+                    {
+                        await _unitOfWork.CommitAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+        }
+
+        public async Task<bool> UpdateTitle(int id, TitleDTO titleDto)
+        {
+            try
+            {
+                var mappedTitle = _mapper.Map<Title>(titleDto);
+                var existingTitle = await _unitOfWork.TitleRepository.GetById(id);
+                if (existingTitle != null)
+                {
+                    existingTitle.Name = titleDto.Name;
+                    existingTitle.Description = titleDto.Description;
+                    //existingTitle = _mapper.Map<TitleDTO, Title>(titleDto);
+                    await _unitOfWork.CommitAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
     }
 }

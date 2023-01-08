@@ -5,7 +5,6 @@ namespace CDEUnileverAPI.DTO
 {
     public class DistributorDTO
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -16,6 +15,5 @@ namespace CDEUnileverAPI.DTO
         public string Phone { get; set; }
         [Required]
         public int SaleSupId { get; set; }
-        public User SaleSup { get; set; }
     }
 }

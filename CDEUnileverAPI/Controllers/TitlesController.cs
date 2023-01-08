@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CDEUnileverAPI.Core.IConfiguration;
+using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
@@ -12,25 +13,23 @@ namespace CDEUnileverAPI.Controllers
     [ApiController]
     public class TitlesController : ControllerBase
     {
-        private readonly CDEUnileverDbContext _context;
-        public readonly IMapper _mapper;
-        public TitlesController(CDEUnileverDbContext context, IMapper mapper)
+        public ITitleService _titleService { get; set; }
+
+        public TitlesController(ITitleService titleService)
         {
-            _context = context;
-            _mapper = mapper;
+            _titleService= titleService;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public Task<IEnumerable<Title>> GetAll()
         {
-            var TitleList = _context.Titles.ToList();
-            return Ok(TitleList);
+            return _titleService.GetAll();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetbyId(int id)
+        public async Task<IActionResult> GetbyId(int id)
         {
-            var title = _context.Titles.FirstOrDefault(t => t.Id == id);
+            var title = await _titleService.GetTitle(id);
             if (title == null) { 
                 return NotFound();
             }
@@ -41,64 +40,34 @@ namespace CDEUnileverAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TitleDTO title)
+        public async Task<IActionResult> Create(TitleDTO titleDto)
         {
-            try
+            if (await _titleService.AddTitle(titleDto))
             {
-                var mappedTitle = _mapper.Map<Title>(title);
-                _context.Add(mappedTitle);
-                _context.SaveChanges();
-                return CreatedAtAction("GetById", new { id = mappedTitle.Id }, mappedTitle);
+                return Ok();
             }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, TitleDTO titleDto)
-        {
-            try
-            {
-                var mappedTitle = _mapper.Map<Title>(titleDto);
-                var existingTitle = _context.Titles.Where(t => t.Id == id).FirstOrDefault();
-                if (existingTitle != null)
-                {
-                    existingTitle.Name = titleDto.Name;
-                    existingTitle.Description = titleDto.Description;
-                    _context.SaveChanges();
-                    return Ok(existingTitle);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var existingTitle = _context.Titles.Where(t => t.Id == id).FirstOrDefault();
-                if (existingTitle != null)
-                {
-                    _context.Remove(existingTitle);
-                    _context.SaveChanges();
-                    return NoContent();
-                }
-                return BadRequest();
-            }
-            catch (Exception)
-            {
 
-                return BadRequest();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, TitleDTO titleDto)
+        {
+            if (await _titleService.UpdateTitle(id, titleDto))
+            {
+                return Ok();
             }
-            
+            return BadRequest();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await _titleService.DeleteTitle(id))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
         
     }

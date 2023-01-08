@@ -34,51 +34,22 @@ namespace CDEUnileverAPI.Core.Repositories
             return true;
         }
 
-
-        //public virtual async Task<IEnumerable<T>> GetAll()
+        //public virtual async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
         //{
         //    try
         //    {
-        //        return await dbSet.ToListAsync();
+        //        var list = await _dbSet.ToListAsync();
+        //        if (list != null)
+        //        {
+        //            return list;
+        //        }
+        //        return new List<T>();
         //    }
-        //    catch (Exception ex)
+        //    catch(Exception ex)
         //    {
         //        _logger.LogError(ex, "", typeof(AreaRepository));
         //        return new List<T>();
         //    }
-        //}
-        //public virtual async Task<bool> Add(T entity)
-        //{
-        //    await dbSet.AddAsync(entity);
-        //    return true;
-        //}
-        //public virtual Task<bool> Delete(int id)
-        //{
-        //    try
-        //    {
-        //        T entityToDelete = dbSet.Find(id);
-        //        if (entityToDelete != null)
-        //        {
-        //            dbSet.Remove(entityToDelete);
-        //            return false;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "", typeof(AreaRepository));
-        //        return false;
-        //    }
-        //}
-
-        //public virtual async Task<T> GetById(int id)
-        //{
-        //    return await dbSet.FindAsync(id);
-        //} 
-
-        //public virtual Task<bool> Update(int id, T entity)
-        //{
-        //    throw new NotImplementedException();
         //}
     }
 }

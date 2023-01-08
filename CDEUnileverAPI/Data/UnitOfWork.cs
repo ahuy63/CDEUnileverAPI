@@ -13,6 +13,7 @@ namespace CDEUnileverAPI.Data
         //public IAreaRepository AreaRepository => throw new NotImplementedException();
         public IAreaRepository AreaRepository { get; private set; }
         public ITitleRepository TitleRepository { get; private set; }
+        public IDistributorRepository DistributorRepository { get; private set; }
 
         public UnitOfWork(CDEUnileverDbContext context, ILoggerFactory loggerFactory)
         {
@@ -20,6 +21,7 @@ namespace CDEUnileverAPI.Data
             _logger = loggerFactory.CreateLogger("logs");
             AreaRepository = new AreaRepository(_context, _logger);
             TitleRepository = new TitleRepository(_context, _logger);
+            DistributorRepository = new DistributorRepository(_context, _logger);
         }
         public void Commit() => _context.SaveChanges();
         public async Task CommitAsync() => await _context.SaveChangesAsync();

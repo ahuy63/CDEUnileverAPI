@@ -9,5 +9,6 @@ namespace CDEUnileverAPI.Core.IServices
         public Task<bool> AddTitle(TitleDTO title);
         public Task<Title> GetTitle(int id);
         public Task<bool> DeleteTitle(int id);
+        public Task<bool> UpdateTitle(int id, TitleDTO title);
     }
 }
