@@ -17,10 +17,9 @@ namespace CDEUnileverAPI.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Title>> GetAll()
+        public async Task<IEnumerable<TitleDTO>> GetAll()
         {
-            return await _unitOfWork.TitleRepository.GetAllAsync();
-
+            return _mapper.Map<IEnumerable<TitleDTO>>( await _unitOfWork.TitleRepository.GetAllAsync());
         }
 
         public async Task<bool> AddTitle(TitleDTO titleDto)
@@ -38,9 +37,9 @@ namespace CDEUnileverAPI.Core.Services
             }
         }
 
-        public Task<Title> GetTitle(int id)
+        public async Task<TitleDTO> GetTitle(int id)
         {
-            return _unitOfWork.TitleRepository.GetById(id);
+            return _mapper.Map<TitleDTO>( await _unitOfWork.TitleRepository.GetById(id));
         }
 
         public async Task<bool> DeleteTitle(int id)
@@ -63,7 +62,6 @@ namespace CDEUnileverAPI.Core.Services
 
                 return false;
             }
-
         }
 
         public async Task<bool> UpdateTitle(int id, TitleDTO titleDto)
@@ -86,7 +84,6 @@ namespace CDEUnileverAPI.Core.Services
             {
                 return false;
             }
-
         }
     }
 }

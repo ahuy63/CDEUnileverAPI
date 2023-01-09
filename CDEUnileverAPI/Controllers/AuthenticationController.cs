@@ -137,7 +137,7 @@ namespace CDEUnileverAPI.Controllers
             email.Subject = "Mật khẩu cho tài khoản";
             email.Body = new TextPart(TextFormat.Html)
             {
-                Text = "Mật khẩu tạm thời: \n"+body+"\nVui lòng thay đổi mật khẩu"
+                Text = "Mật khẩu tạm thời: \n"+body+" \n Vui lòng thay đổi mật khẩu"
             };
 
             var smtp = new SmtpClient();

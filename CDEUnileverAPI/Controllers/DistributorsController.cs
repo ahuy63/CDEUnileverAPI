@@ -24,7 +24,6 @@ namespace CDEUnileverAPI.Controllers
             }
             catch (Exception)
             {
-
                 return BadRequest();
             }
             
@@ -44,9 +43,10 @@ namespace CDEUnileverAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(DistributorDTO distributorDto)
         {
-            if(await _distributorService.AddDistributor(distributorDto))
-            {
-                return Ok(distributorDto);
+            if (await _distributorService.AddDistributor(distributorDto))
+            { 
+                return StatusCode(StatusCodes.Status201Created, distributorDto);
+                //return Ok(distributorDto);
             }
             return BadRequest();
         }
@@ -66,7 +66,7 @@ namespace CDEUnileverAPI.Controllers
         {
             if (await _distributorService.UpdateDistributor(id, distributorDto))
             {
-                return Ok();
+                return NoContent();
             }
             return BadRequest();
         }

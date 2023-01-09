@@ -11,4 +11,9 @@ namespace CDEUnileverAPI.DTO
         public string Name { get; set; }
         public int? DistributorQty { get; set; } = 0;
     }
+    public class ShowAreaDetailDTO : ShowAreaDTO
+    {
+        public ICollection<User>? Users { get; set; }
+        public ICollection<Distributor>? Distributors { get; set; }
+    }
 }

@@ -7,6 +7,7 @@ namespace CDEUnileverAPI.Core.IConfiguration
         IAreaRepository AreaRepository { get; }
         ITitleRepository TitleRepository { get; }
         IDistributorRepository DistributorRepository { get; }
+        IUserRepository UserRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

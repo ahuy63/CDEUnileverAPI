@@ -25,7 +25,7 @@ namespace CDEUnileverAPI.Controllers
 
         // GET: api/Areas
         [HttpGet]
-        public async Task<IEnumerable<Area>> GetAll()
+        public async Task<IEnumerable<ShowAreaDTO>> GetAll()
         {
             var areaList = await _areaService.GetAll();
             return await _areaService.GetAll();
@@ -50,7 +50,7 @@ namespace CDEUnileverAPI.Controllers
         {
             if (await _areaService.AddArea(area))
             {
-                return Ok() ;
+                return Ok();
             }
             else
             {
@@ -71,6 +71,26 @@ namespace CDEUnileverAPI.Controllers
             {
                 return BadRequest();
             }
+        }
+        [Route("AddUserToArea")]
+        [HttpPost]
+        public async Task<IActionResult> AddUserToArea(Area_UserDTO data)
+        {
+            if (await _areaService.AddUserToArea(data.UserId, data.AreaId))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [Route("AddDistributorToArea")]
+        [HttpPost]
+        public async Task<IActionResult> AddDistributorToArea(Area_DistributorDTO data)
+        {
+            if (await _areaService.AddDistributorToArea(data.DistributorId, data.AreaId))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

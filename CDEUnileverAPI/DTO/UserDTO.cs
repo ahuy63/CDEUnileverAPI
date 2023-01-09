@@ -17,6 +17,34 @@ namespace CDEUnileverAPI.DTO
         public int ReporterId { get; set; }
         public bool Status { get; set; } = true;
     }
+    public class UserDetailsDTO
+    {
+        [Required]
+        public string FullName { get; set; }
+        public DateTime DateCreated { get; set; }
+        public User Reporter { get; set; }
+    }
+    public class ShowUserListDTO
+    {
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public Title Title { get; set; }
+        public Area Area { get; set; }
+        public User Reporter { get; set; }
+        public bool Status { get; set; } = true;
+    }
+    public class ShowArea_UserDTO
+    {
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public Title Title { get; set; }
+    }
+    public class UpdateUserDTO
+    {
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+    }
     public class ChangePasswordUserDTO
     {
         [Required]

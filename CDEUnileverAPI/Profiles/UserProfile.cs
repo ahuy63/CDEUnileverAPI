@@ -14,6 +14,9 @@ namespace CDEUnileverAPI.Profiles
                 .ForMember(dest => dest.AreaId, opt => opt.MapFrom(frm => frm.AreaId))
                 .ForMember(dest => dest.ReporterId, opt => opt.MapFrom(frm => frm.ReporterId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(frm => frm.Status));
+            CreateMap<User, UserDetailsDTO>().ReverseMap();
+            CreateMap<User, ShowArea_UserDTO>().ReverseMap();
+            CreateMap<User, ShowUserListDTO>().ReverseMap();
         }
     }
 }

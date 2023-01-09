@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CDEUnileverAPI.Core.IConfiguration;
+using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
@@ -10,36 +12,52 @@ namespace CDEUnileverAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly CDEUnileverDbContext _context;
-        public readonly IMapper _mapper;
-        public UsersController(CDEUnileverDbContext context, IMapper mapper)
+        public IUserService _userService { get; set; }
+        public UsersController(IUserService userService)
         {
-            _context = context;
-            _mapper = mapper;
+            _userService= userService;
         }
 
         [Route("GetAllUsers")]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IEnumerable<ShowUserListDTO>> GetAll()
         {
-            var UserList = _context.Users.ToList();
-            //var mappedUserList = _mapper.Map<User>(UserList);
-            return Ok(UserList);
+            return await _userService.GetAll();
         }
 
         //[Route("GetUser/{id}")]
         [HttpGet("{id}")]
-        public IActionResult GetbyId(int id)
+        public async Task<IActionResult> GetbyId(int id)
         {
-            var user = _context.Users.FirstOrDefault(t => t.Id == id);
+            var user = await _userService.GetUser(id);
             if (user == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok(_mapper.Map<UserDTO>(user));
+                return Ok(user);
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO updateUserDto)
+        {
+            if (await _userService.UpdateUser(id, updateUserDto))
+            {
+                return NoContent();
+            }
+            return BadRequest();
+        }
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateUserPassword(int id, string newPassword)
+        //{
+        //    if (await _userService.UpdateUserPassword(id, newPassword))
+        //    {
+        //        return Ok();
+        //    }
+        //    return BadRequest();
+        //}
     }
 }

@@ -21,9 +21,9 @@ namespace CDEUnileverAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<Title>> GetAll()
+        public async Task<IEnumerable<TitleDTO>> GetAll()
         {
-            return _titleService.GetAll();
+            return await _titleService.GetAll();
         }
 
         [HttpGet("{id}")]
@@ -44,7 +44,7 @@ namespace CDEUnileverAPI.Controllers
         {
             if (await _titleService.AddTitle(titleDto))
             {
-                return Ok();
+                return StatusCode(StatusCodes.Status201Created, titleDto);
             }
             return BadRequest();
         }
@@ -54,7 +54,7 @@ namespace CDEUnileverAPI.Controllers
         {
             if (await _titleService.UpdateTitle(id, titleDto))
             {
-                return Ok();
+                return NoContent();
             }
             return BadRequest();
         }
