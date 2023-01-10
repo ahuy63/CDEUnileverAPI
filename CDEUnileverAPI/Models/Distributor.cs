@@ -9,5 +9,8 @@
         public string Phone { get; set; }
         public int SaleSupId { get; set; }
         public User SaleSup { get; set; }
+        public int AreaId { get; set; }
+        public Area Area { get; set; }
     }
+
 }

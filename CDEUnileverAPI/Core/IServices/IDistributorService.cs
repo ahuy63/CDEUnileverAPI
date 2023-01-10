@@ -8,6 +8,7 @@ namespace CDEUnileverAPI.Core.IServices
         public Task<IEnumerable<Distributor>> GetAll();
         public Task<bool> AddDistributor(DistributorDTO distributor);
         public Task<Distributor> GetDistributor(int id);
+        public Task<IEnumerable<Distributor>> GetDistributorByAreaId(int areaId);
         public Task<bool> DeleteDistributor(int id);
         public Task<bool> UpdateDistributor(int id, DistributorDTO distributor);
     }

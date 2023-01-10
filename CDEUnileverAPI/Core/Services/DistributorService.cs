@@ -26,7 +26,10 @@ namespace CDEUnileverAPI.Core.Services
             try
             {
                 var mapped = _mapper.Map<Distributor>(distributorDto);
+                var area = await _unitOfWork.AreaRepository.GetById(distributorDto.AreaId);
+                area.DistributorQty += 1;
                 await _unitOfWork.DistributorRepository.Add(mapped);
+                await _unitOfWork.AreaRepository.Update(area);
                 await _unitOfWork.CommitAsync();
                 return true;
             }
@@ -46,10 +49,14 @@ namespace CDEUnileverAPI.Core.Services
             try
             {
                 var distributor = await _unitOfWork.DistributorRepository.GetById(id);
+                
                 if (distributor != null)
                 {
-                    if(await _unitOfWork.DistributorRepository.Delete(distributor))
+                    var area = await _unitOfWork.AreaRepository.GetById(distributor.AreaId);
+                    area.DistributorQty -= 1;
+                    if (await _unitOfWork.DistributorRepository.Delete(distributor))
                     {
+                        await _unitOfWork.AreaRepository.Update(area);
                         await _unitOfWork.CommitAsync();
                         return true;
                     }
@@ -66,16 +73,18 @@ namespace CDEUnileverAPI.Core.Services
         {
             try
             {
-                var mappedTitle = _mapper.Map<Distributor>(distributorDto);
+                var mapped = _mapper.Map<Distributor>(distributorDto);
                 var existingDistributor = await _unitOfWork.DistributorRepository.GetById(id);
+                mapped.Id= existingDistributor.Id;
                 if (existingDistributor != null)
                 {
+                    //await _unitOfWork.DistributorRepository.Update(mapped);
                     existingDistributor.Name = distributorDto.Name;
                     existingDistributor.Address = distributorDto.Address;
-                    existingDistributor.SaleSupId= distributorDto.SaleSupId;
+                    existingDistributor.SaleSupId = distributorDto.SaleSupId;
                     existingDistributor.Email = distributorDto.Email;
-                    existingDistributor.Phone= distributorDto.Phone;
-                    //existingDistributor = _mapper.Map<Distributor>(distributorDto); 
+                    existingDistributor.Phone = distributorDto.Phone;
+                    //existingDistributor = _mapper.Map<Distributor>(distributorDto);
                     await _unitOfWork.CommitAsync();
                     return true;
                 }
@@ -85,6 +94,11 @@ namespace CDEUnileverAPI.Core.Services
             {
                 return false;
             }
+        }
+
+        public async Task<IEnumerable<Distributor>> GetDistributorByAreaId(int areaId)
+        {
+            return await _unitOfWork.DistributorRepository.GetByAreaIdAsync(areaId);
         }
     }
 }

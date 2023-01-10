@@ -24,9 +24,11 @@ namespace CDEUnileverAPI.Core.Repositories
             return true;
         } 
         public virtual async Task<T> GetById(int id) => await _dbSet.FindAsync(id);
-        public virtual Task<bool> Update(T entity)
+        public virtual async Task<bool> Update(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            return true;
         }
         public virtual async Task<bool> Delete(T entity)
         {

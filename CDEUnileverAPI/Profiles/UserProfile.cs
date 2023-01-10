@@ -17,6 +17,7 @@ namespace CDEUnileverAPI.Profiles
             CreateMap<User, UserDetailsDTO>().ReverseMap();
             CreateMap<User, ShowArea_UserDTO>().ReverseMap();
             CreateMap<User, ShowUserListDTO>().ReverseMap();
+            CreateMap<User, AddNewUserToAreaDTO>().ReverseMap();
         }
     }
 }

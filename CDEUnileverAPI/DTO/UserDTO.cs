@@ -57,4 +57,17 @@ namespace CDEUnileverAPI.DTO
         [Required]
         public string Password { get; set; }
     }
+
+    public class AddNewUserToAreaDTO
+    {
+        [Required]
+        public string FullName { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public int TitleId { get; set; }
+        [Required]
+        public int ReporterId { get; set; }
+        public bool Status { get; set; } = true;
+    }
 }

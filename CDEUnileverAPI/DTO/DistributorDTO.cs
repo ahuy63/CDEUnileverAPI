@@ -15,5 +15,14 @@ namespace CDEUnileverAPI.DTO
         public string Phone { get; set; }
         [Required]
         public int SaleSupId { get; set; }
+        [Required]
+        public int AreaId { get; set; }
+    }
+    public class ShowArea_DistributorDTO
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }
