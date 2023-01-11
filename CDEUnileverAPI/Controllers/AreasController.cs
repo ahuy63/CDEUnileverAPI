@@ -96,15 +96,15 @@ namespace CDEUnileverAPI.Controllers
             return _mapper.Map<IEnumerable<ShowArea_DistributorDTO>>(await _distributorService.GetDistributorByAreaId(areaId));
         }
 
-        [HttpPut("{areaid}/AssignUser")]
+        [HttpPut("{areaId}/AssignUser")]
         public async Task<IActionResult> AssignUserToArea(int areaId, int userId)
         {
             var user = await _userService.GetUserDetails(userId);
             if (user != null)
             {
-                user.AreaId = null;
+                user.AreaId = areaId;
                 await _userService.UpdateUserArea(user, areaId);
-                return Ok(user);
+                return Ok(_mapper.Map<ShowUserListDTO>(await _userService.GetUser(userId)));
             }
             return BadRequest();
         }
@@ -122,17 +122,17 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest(apiResponse.Message);
         }
 
-        ////[HttpPut("{id}")]
-        //public async Task<IActionResult> RemoveUserFromArea(int userId)
-        //{
-        //    var user = await _userService.GetUserDetails(userId);
-        //    if (user != null)
-        //    {
-        //        user.AreaId = null;
-        //        await _userService.UpdateUserArea(user, null);
-        //        return Ok(user);
-        //    }
-        //    return BadRequest();
-        //}
+        [HttpPut("RemoveAssignedUser/{userId}")]
+        public async Task<IActionResult> RemoveUserFromArea(int userId)
+        {
+            var user = await _userService.GetUserDetails(userId);
+            if (user != null)
+            {
+                user.AreaId = null;
+                await _userService.UpdateUserArea(user, null);
+                return Ok(_mapper.Map<ShowUserListDTO>(await _userService.GetUser(userId)));
+            }
+            return BadRequest();
+        }
     }
 }
