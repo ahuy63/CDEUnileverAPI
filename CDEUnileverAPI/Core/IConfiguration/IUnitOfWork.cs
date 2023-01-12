@@ -8,6 +8,8 @@ namespace CDEUnileverAPI.Core.IConfiguration
         ITitleRepository TitleRepository { get; }
         IDistributorRepository DistributorRepository { get; }
         IUserRepository UserRepository { get; }
+        IQuestionaireDetailRepository QuestionaireDetailRepository { get; }
+        IQuestionaireRepository QuestionaireRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230112034559_AddQuestionareModel")]
+    partial class AddQuestionareModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,32 +88,6 @@ namespace CDEUnileverAPI.Migrations
                     b.ToTable("Distributors");
                 });
 
-            modelBuilder.Entity("CDEUnileverAPI.Models.Questionaire", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NumberOfQuestions")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Questionaires");
-                });
-
             modelBuilder.Entity("CDEUnileverAPI.Models.QuestionaireDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -141,9 +118,6 @@ namespace CDEUnileverAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuestionaireId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuestionareId")
                         .HasColumnType("int");
 
@@ -152,9 +126,35 @@ namespace CDEUnileverAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionaireId");
+                    b.HasIndex("QuestionareId");
 
                     b.ToTable("QuestionaireDetails");
+                });
+
+            modelBuilder.Entity("CDEUnileverAPI.Models.Questionare", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfQuestions")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questionares");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.Title", b =>
@@ -254,13 +254,13 @@ namespace CDEUnileverAPI.Migrations
 
             modelBuilder.Entity("CDEUnileverAPI.Models.QuestionaireDetail", b =>
                 {
-                    b.HasOne("CDEUnileverAPI.Models.Questionaire", "Questionaire")
+                    b.HasOne("CDEUnileverAPI.Models.Questionare", "Questionare")
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionaireId")
+                        .HasForeignKey("QuestionareId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Questionaire");
+                    b.Navigation("Questionare");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.User", b =>
@@ -291,7 +291,7 @@ namespace CDEUnileverAPI.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("CDEUnileverAPI.Models.Questionaire", b =>
+            modelBuilder.Entity("CDEUnileverAPI.Models.Questionare", b =>
                 {
                     b.Navigation("Questions");
                 });

@@ -15,6 +15,9 @@ namespace CDEUnileverAPI.Data
         public ITitleRepository TitleRepository { get; private set; }
         public IDistributorRepository DistributorRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
+        public IQuestionaireDetailRepository QuestionaireDetailRepository {get; private set;}
+        public IQuestionaireRepository QuestionaireRepository {get; private set;}
+
         public UnitOfWork(CDEUnileverDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
@@ -23,6 +26,8 @@ namespace CDEUnileverAPI.Data
             TitleRepository = new TitleRepository(_context, _logger);
             DistributorRepository = new DistributorRepository(_context, _logger);
             UserRepository= new UserRepository(_context, _logger);
+            QuestionaireRepository = new QuestionaireRepository(_context, _logger);
+            QuestionaireDetailRepository = new QuestionaireDetailRepository(_context, _logger);
         }
         public void Commit() => _context.SaveChanges();
         public async Task CommitAsync() => await _context.SaveChangesAsync();
