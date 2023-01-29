@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230129101030_2301291710")]
+    partial class _2301291710
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +99,6 @@ namespace CDEUnileverAPI.Migrations
                     b.Property<int>("AssigneeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreatedById")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateEnd")
                         .HasColumnType("datetime2");
 
@@ -106,10 +106,6 @@ namespace CDEUnileverAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -123,8 +119,6 @@ namespace CDEUnileverAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssigneeId");
-
-                    b.HasIndex("CreatedById");
 
                     b.HasIndex("VisitPlanId");
 
@@ -293,10 +287,6 @@ namespace CDEUnileverAPI.Migrations
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Purpose")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -341,21 +331,13 @@ namespace CDEUnileverAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CDEUnileverAPI.Models.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CDEUnileverAPI.Models.VisitPlan", "VisitPlan")
-                        .WithMany("Tasks")
+                        .WithMany()
                         .HasForeignKey("VisitPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Assignee");
-
-                    b.Navigation("CreatedBy");
 
                     b.Navigation("VisitPlan");
                 });
@@ -419,11 +401,6 @@ namespace CDEUnileverAPI.Migrations
             modelBuilder.Entity("CDEUnileverAPI.Models.Questionnaire", b =>
                 {
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.VisitPlan", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

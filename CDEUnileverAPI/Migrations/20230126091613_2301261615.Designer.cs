@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230126091613_2301261615")]
+    partial class _2301261615
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,52 +86,6 @@ namespace CDEUnileverAPI.Migrations
                     b.HasIndex("SaleSupId");
 
                     b.ToTable("Distributors");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.JobTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AssigneeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VisitPlanId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("VisitPlanId");
-
-                    b.ToTable("JobTasks");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.Questionnaire", b =>
@@ -276,44 +233,6 @@ namespace CDEUnileverAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CDEUnileverAPI.Models.VisitPlan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DistributorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GuestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Purpose")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Time")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistributorId");
-
-                    b.HasIndex("GuestId");
-
-                    b.ToTable("VisitPlans");
-                });
-
             modelBuilder.Entity("CDEUnileverAPI.Models.Distributor", b =>
                 {
                     b.HasOne("CDEUnileverAPI.Models.Area", "Area")
@@ -331,33 +250,6 @@ namespace CDEUnileverAPI.Migrations
                     b.Navigation("Area");
 
                     b.Navigation("SaleSup");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.JobTask", b =>
-                {
-                    b.HasOne("CDEUnileverAPI.Models.User", "Assignee")
-                        .WithMany()
-                        .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CDEUnileverAPI.Models.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CDEUnileverAPI.Models.VisitPlan", "VisitPlan")
-                        .WithMany("Tasks")
-                        .HasForeignKey("VisitPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignee");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("VisitPlan");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.QuestionnaireDetail", b =>
@@ -392,23 +284,6 @@ namespace CDEUnileverAPI.Migrations
                     b.Navigation("Title");
                 });
 
-            modelBuilder.Entity("CDEUnileverAPI.Models.VisitPlan", b =>
-                {
-                    b.HasOne("CDEUnileverAPI.Models.Distributor", "Distributor")
-                        .WithMany()
-                        .HasForeignKey("DistributorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CDEUnileverAPI.Models.User", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId");
-
-                    b.Navigation("Distributor");
-
-                    b.Navigation("Guest");
-                });
-
             modelBuilder.Entity("CDEUnileverAPI.Models.Area", b =>
                 {
                     b.Navigation("Distributors");
@@ -419,11 +294,6 @@ namespace CDEUnileverAPI.Migrations
             modelBuilder.Entity("CDEUnileverAPI.Models.Questionnaire", b =>
                 {
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.VisitPlan", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

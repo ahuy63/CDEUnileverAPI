@@ -2,7 +2,7 @@
 
 namespace CDEUnileverAPI.Models
 {
-    public class Questionaire
+    public class Questionnaire
     {
         public int Id { get; set; }
         //public string Title { get; set; } = "Khảo sát - " + DateTime.UtcNow.ToString("dd/MM");
@@ -12,6 +12,6 @@ namespace CDEUnileverAPI.Models
         public int NumberOfQuestions { get; set; } = 0;
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-        public ICollection<QuestionaireDetail> Questions { get; set; }
+        public ICollection<QuestionnaireDetail> Questions { get; set; }
     }
 }

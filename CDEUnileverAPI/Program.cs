@@ -50,8 +50,10 @@ builder.Services.AddTransient(typeof(IAreaService), typeof(AreaService));
 builder.Services.AddTransient(typeof(ITitleService), typeof(TitleService));
 builder.Services.AddTransient(typeof(IDistributorService), typeof(DistributorService));
 builder.Services.AddTransient(typeof(IUserService), typeof(UserService));
-builder.Services.AddTransient(typeof(IQuestionaireDetailService), typeof(QuestionaireDetailService));
-builder.Services.AddTransient(typeof(IQuestionaireService), typeof(QuestionaireService));
+builder.Services.AddTransient(typeof(IQuestionnaireDetailService), typeof(QuestionnaireDetailService));
+builder.Services.AddTransient(typeof(IQuestionnaireService), typeof(QuestionnaireService));
+builder.Services.AddTransient(typeof(IVisitPlanService), typeof(VisitPlanService));
+builder.Services.AddTransient(typeof(IJobTaskService), typeof(JobTaskService));
 
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)

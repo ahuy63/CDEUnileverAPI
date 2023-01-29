@@ -1,11 +1,11 @@
 ﻿namespace CDEUnileverAPI.Models
 {
-    public class QuestionaireDetail
+    public class QuestionnaireDetail
     {
         public int Id { get; set; }
-        public int QuestionareId { get; set; }
-        public Questionaire Questionaire { get; set; }
-        public int? QuestionarePart { get; set; }
+        public int QuestionnaireId { get; set; }
+        public Questionnaire Questionnaire { get; set; }
+        public int? QuestionnairePart { get; set; }
         public string Question { get; set; }
         public string? AnswerA { get; set; }
         public string? AnswerB { get; set; }

@@ -2,7 +2,7 @@
 
 namespace CDEUnileverAPI.Core.IRepositories
 {
-    public interface IQuestionaireRepository : IGenericRepository<Questionaire>
+    public interface IQuestionnaireRepository : IGenericRepository<Questionnaire>
     {
     }
 }

@@ -1,9 +1,4 @@
-﻿using CDEUnileverAPI.Models;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-
-namespace CDEUnileverAPI.Models
+﻿namespace CDEUnileverAPI.Models
 {
     public class User
     {
