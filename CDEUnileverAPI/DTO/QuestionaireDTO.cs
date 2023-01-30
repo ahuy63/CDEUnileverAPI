@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CDEUnileverAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CDEUnileverAPI.DTO
 {
+   
     public class QuestionaireDTO
     {
-
     }
     public class AddNewQuestionaireDTO
     {
@@ -16,5 +17,14 @@ namespace CDEUnileverAPI.DTO
         public int Id { get; set; }
         public string Title { get; set; }
         public bool Status { get; set; }
+        public DateTime DateCreated { get; set; }
+    }
+    public class QuestionnaireDetailsDTO
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool Status { get; set; } = true;
+        public DateTime DateCreated { get; set; }
+        public ICollection<QuestionnaireDetail> Questions { get; set; }
     }
 }

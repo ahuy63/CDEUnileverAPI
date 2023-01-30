@@ -43,6 +43,9 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 ///
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

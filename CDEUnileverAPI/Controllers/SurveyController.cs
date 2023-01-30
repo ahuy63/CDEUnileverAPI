@@ -52,9 +52,9 @@ namespace CDEUnileverAPI.Controllers
         }
 
         [HttpGet("GetQuestionnaireDetails/{id}")]
-        public async Task<Questionnaire> GetQuestionaireDetails(int id)
+        public async Task<QuestionnaireDetailsDTO> GetQuestionaireDetails(int id)
         {
-            return await _questionaireService.GetQuestionaire(id);
+            return _mapper.Map<QuestionnaireDetailsDTO>( await _questionaireService.GetQuestionaire(id));
         }
 
         [HttpPost("Questionnaire/{questionnaireId}/AddQuestion")]
