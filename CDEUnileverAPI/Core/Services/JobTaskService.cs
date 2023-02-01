@@ -16,9 +16,18 @@ namespace CDEUnileverAPI.Core.Services
             _mapper = mapper;
         }
 
-        public Task<bool> AddJobTask(JobTask jobTask)
+        public async Task<bool> AddJobTask(JobTask jobTask)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _unitOfWork.JobTaskRepository.Add(jobTask);
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Task<bool> DeleteJobTask(int id)
@@ -29,6 +38,11 @@ namespace CDEUnileverAPI.Core.Services
         public async Task<IEnumerable<JobTask>> GetAll()
         {
             return await _unitOfWork.JobTaskRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<JobTask>> GetByVisitPlanId(int visitPlanId)
+        {
+            return await _unitOfWork.JobTaskRepository.GetByVisitPlanId(visitPlanId);
         }
 
         public async Task<JobTask> GetJobTask(int id)

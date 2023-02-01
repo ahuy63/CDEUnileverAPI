@@ -11,23 +11,32 @@ namespace CDEUnileverAPI.Controllers
     public class VisitPlansController : ControllerBase
     {
         public IVisitPlanService _visitPlanService { get; set; }
+        public IJobTaskService _jobTaskService { get; set; }
         public readonly IMapper _mapper;
-        public VisitPlansController(IVisitPlanService visitPlanService, IMapper mapper)
+        public VisitPlansController(IVisitPlanService visitPlanService, IJobTaskService jobTaskService,IMapper mapper)
         {
             _visitPlanService = visitPlanService;
+            _jobTaskService = jobTaskService;
             _mapper = mapper;
         }
 
         [HttpGet("GetAllVisitPlan")]
-        public async Task<IEnumerable<ShowVisitPlanListDTO>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _mapper.Map<IEnumerable<ShowVisitPlanListDTO>>(await _visitPlanService.GetAll());
+            return Ok(_mapper.Map<IEnumerable<ShowVisitPlanListDTO>>(await _visitPlanService.GetAll()));
         }
 
-        [HttpGet("{id}")]
-        public async Task<VisitPlan> GetById(int id)
+
+        [HttpGet("VisitPlanDetail/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _visitPlanService.GetVisitPlan(id);
+            var visitPlanDetail = _mapper.Map<VisitPlanDetailDTO>(await _visitPlanService.GetVisitPlan(id));
+            if (visitPlanDetail != null)
+            {
+                visitPlanDetail.Tasks = _mapper.Map<ICollection<ShowJobTaskListDTO>>(await _jobTaskService.GetByVisitPlanId(id));
+                return Ok(visitPlanDetail);
+            }
+            return NotFound();
         }
 
         [HttpPost("CreateVisitPlan")]

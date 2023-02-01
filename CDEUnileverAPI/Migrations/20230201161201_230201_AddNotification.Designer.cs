@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230201161201_230201_AddNotification")]
+    partial class _230201AddNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,36 +47,6 @@ namespace CDEUnileverAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Area");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.Comment", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("JobTaskId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("JobTaskId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.Distributor", b =>
@@ -139,11 +112,9 @@ namespace CDEUnileverAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -377,25 +348,6 @@ namespace CDEUnileverAPI.Migrations
                     b.ToTable("VisitPlans");
                 });
 
-            modelBuilder.Entity("CDEUnileverAPI.Models.Comment", b =>
-                {
-                    b.HasOne("CDEUnileverAPI.Models.JobTask", "JobTask")
-                        .WithMany("Comments")
-                        .HasForeignKey("JobTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CDEUnileverAPI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("JobTask");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CDEUnileverAPI.Models.Distributor", b =>
                 {
                     b.HasOne("CDEUnileverAPI.Models.Area", "Area")
@@ -515,11 +467,6 @@ namespace CDEUnileverAPI.Migrations
                     b.Navigation("Distributors");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("CDEUnileverAPI.Models.JobTask", b =>
-                {
-                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.Questionnaire", b =>

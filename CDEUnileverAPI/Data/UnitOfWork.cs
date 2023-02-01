@@ -19,6 +19,8 @@ namespace CDEUnileverAPI.Data
         public IVisitPlanRepository VisitPlanRepository { get; private set; }
         public IJobTaskRepository JobTaskRepository { get; private set; }
         public IQuestionnaireRepository QuestionaireRepository {get; private set;}
+        public INotiRepository NotiRepository { get; private set; }
+        public ICommentRepository CommentRepository { get; private set; }
 
         public UnitOfWork(CDEUnileverDbContext context, ILoggerFactory loggerFactory)
         {
@@ -32,6 +34,8 @@ namespace CDEUnileverAPI.Data
             QuestionaireDetailRepository = new QuestionnaireDetailRepository(_context, _logger);
             VisitPlanRepository = new VisitPlanRepository(_context, _logger);
             JobTaskRepository = new JobTaskRepository(_context, _logger);
+            NotiRepository = new NotiRepository(_context, _logger);
+            CommentRepository = new CommentRepository(_context, _logger);
         }
         public void Commit() => _context.SaveChanges();
         public async Task CommitAsync() => await _context.SaveChangesAsync();

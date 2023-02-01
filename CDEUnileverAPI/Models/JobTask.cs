@@ -11,8 +11,10 @@
         public string Description { get; set; }
         public int VisitPlanId { get; set; }
         public VisitPlan VisitPlan { get; set; }
-        public string Status { get; set; } = "Not visited yet";
+        public bool Status { get; set; } = true;
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
+        public double Rating { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

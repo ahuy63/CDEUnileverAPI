@@ -16,5 +16,7 @@ namespace CDEUnileverAPI.Data
         public DbSet<QuestionnaireDetail> QuestionaireDetails { get; set;}
         public DbSet<VisitPlan> VisitPlans { get; set; }
         public DbSet<JobTask> JobTasks { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

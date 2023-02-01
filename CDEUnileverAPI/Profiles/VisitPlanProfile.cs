@@ -16,6 +16,7 @@ namespace CDEUnileverAPI.Profiles
                 .ForMember(dest => dest.GuestId, opt => opt.MapFrom(frm => frm.GuestId))
                 ;
             CreateMap<VisitPlan, ShowVisitPlanListDTO>().ReverseMap();
+            CreateMap<VisitPlan, VisitPlanDetailDTO>().ReverseMap();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace CDEUnileverAPI.DTO
         public string Title { get; set; }
         public bool Status { get; set; } = true;
         public DateTime DateCreated { get; set; }
-        public ICollection<QuestionnaireDetail> Questions { get; set; }
+        public string QuestionnaireDetailQuestion { get; set; }
+        public ICollection<ShowQuestionDTO> Questions { get; set; }
     }
 }

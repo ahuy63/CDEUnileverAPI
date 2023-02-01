@@ -9,5 +9,8 @@ namespace CDEUnileverAPI.Core.Repositories
         public VisitPlanRepository(CDEUnileverDbContext _context, ILogger logger) : base(_context, logger)
         {
         }
+
+
     }
 }
+    

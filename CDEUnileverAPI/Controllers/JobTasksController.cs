@@ -1,4 +1,6 @@
-﻿using CDEUnileverAPI.Core.IServices;
+﻿using AutoMapper;
+using CDEUnileverAPI.Core.IServices;
+using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,21 +11,47 @@ namespace CDEUnileverAPI.Controllers
     public class JobTasksController : ControllerBase
     {
         public IJobTaskService _jobTaskService { get; set; }
-        public JobTasksController(IJobTaskService jobTaskService)
+        public readonly IMapper _mapper;
+        public JobTasksController(IJobTaskService jobTaskService, IMapper mapper)
         {
             _jobTaskService = jobTaskService;
+            _mapper = mapper;
         }
 
         [HttpGet("GetAll")]
-        public async Task<IEnumerable<JobTask>> GetAll()
+        public async Task<IEnumerable<ShowJobTaskListDTO>> GetAll()
         {
-            return await _jobTaskService.GetAll();
+            return _mapper.Map<IEnumerable<ShowJobTaskListDTO>>(await _jobTaskService.GetAll());
         }
 
-        [HttpGet("{id}")]
-        public async Task<JobTask> GetById(int id)
+        [HttpGet("TaskDetail/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _jobTaskService.GetJobTask(id);
+            var task = _mapper.Map<ShowJobTaskDetailsDTO>(await _jobTaskService.GetJobTask(id));
+            if (task != null)
+            {
+                return Ok(task);
+            }
+            return NotFound();
         }
+
+        [HttpGet("GetAllTaskByVisitPlan/{visitPlanId}")]
+        public async Task<IEnumerable<ShowJobTaskListDTO>> GetByVisitPlan(int visitPlanId)
+        {
+            return _mapper.Map<IEnumerable<ShowJobTaskListDTO>>(await _jobTaskService.GetByVisitPlanId(visitPlanId));
+        }
+
+        [HttpPost("CreateTask")]
+        public async Task<IActionResult> CreateTask(JobTaskDTO jobTaskDto)
+        {
+            var jobTask = _mapper.Map<JobTask>(jobTaskDto);
+            if (await _jobTaskService.AddJobTask(jobTask))
+            {
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            return BadRequest();
+        }
+
+
     }
 }

@@ -17,4 +17,13 @@ namespace CDEUnileverAPI.DTO
         public DateTime Date { get; set; }
         public string Name { get; set; }
     }
+
+    public class VisitPlanDetailDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Purpose { get; set; }
+        public DateTime Date { get; set; }  
+        public ICollection<ShowJobTaskListDTO> Tasks { get; set; }
+    }
 }

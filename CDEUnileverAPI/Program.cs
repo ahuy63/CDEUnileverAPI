@@ -57,7 +57,8 @@ builder.Services.AddTransient(typeof(IQuestionnaireDetailService), typeof(Questi
 builder.Services.AddTransient(typeof(IQuestionnaireService), typeof(QuestionnaireService));
 builder.Services.AddTransient(typeof(IVisitPlanService), typeof(VisitPlanService));
 builder.Services.AddTransient(typeof(IJobTaskService), typeof(JobTaskService));
-
+builder.Services.AddTransient(typeof(ICommentService), typeof(CommentService));
+builder.Services.AddTransient(typeof(INotiService), typeof(NotiService));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
 //    .AddEntityFrameworkStores<CDEUnileverDbContext>();
