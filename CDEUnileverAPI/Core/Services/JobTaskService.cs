@@ -8,12 +8,10 @@ namespace CDEUnileverAPI.Core.Services
     public class JobTaskService : IJobTaskService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public readonly IMapper _mapper;
 
-        public JobTaskService(IUnitOfWork unitOfWork, IMapper mapper)
+        public JobTaskService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task<bool> AddJobTask(JobTask jobTask)

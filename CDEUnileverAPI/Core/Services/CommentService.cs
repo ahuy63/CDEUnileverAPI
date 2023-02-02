@@ -16,15 +16,16 @@ namespace CDEUnileverAPI.Core.Services
         public async Task<bool> AddComment(Comment comment)
         {
             try
-            {
-                var jobTask = await _unitOfWork.JobTaskRepository.GetById(comment.JobTaskId);
-                var rate_times = await _unitOfWork.CommentRepository.GetNumberOFRating(comment.JobTaskId);
+            {   
                 if (comment.Rating != 0)
                 {
-                    jobTask.Rating = (jobTask.Rating + comment.Rating) / (rate_times + 1);
+                    var jobTask = await _unitOfWork.JobTaskRepository.GetById(comment.JobTaskId);
+                    var rate_times = await _unitOfWork.CommentRepository.GetNumberOFRating(comment.JobTaskId);
+                    var ratingSum = await _unitOfWork.CommentRepository.GetSumRating(comment.JobTaskId);
+                    jobTask.Rating = (ratingSum + comment.Rating) / (rate_times + 1);
+                    await _unitOfWork.JobTaskRepository.Update(jobTask);
                 }
                 await _unitOfWork.CommentRepository.Add(comment);
-                await _unitOfWork.JobTaskRepository.Update(jobTask);
                 await _unitOfWork.CommitAsync();
                 return true;
             }

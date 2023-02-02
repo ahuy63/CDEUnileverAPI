@@ -16,6 +16,10 @@ namespace CDEUnileverAPI.Core.Repositories
         {
             return _dbSet.Where(x => x.Rating != 0).Where(x => x.JobTaskId == jobTaskId).ToList().Count();
         }
+        public async Task<double> GetSumRating(int jobTaskId)
+        {
+            return _dbSet.Where(x => x.Rating != 0).Where(x => x.JobTaskId == jobTaskId).Select(x => x.Rating).Sum();
+        }
 
         public async Task<IEnumerable<Comment>> GetAllbyTask(int jobTaskId)
         {

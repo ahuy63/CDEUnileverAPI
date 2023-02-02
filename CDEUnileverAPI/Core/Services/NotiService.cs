@@ -1,33 +1,39 @@
-﻿using CDEUnileverAPI.Core.IServices;
+﻿using CDEUnileverAPI.Core.IConfiguration;
+using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.Models;
 
 namespace CDEUnileverAPI.Core.Services
 {
     public class NotiService : INotiService
     {
-        public Task<bool> AddNotification(Notification notification)
+        public readonly IUnitOfWork _unitOfWork;
+        public NotiService(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> DeleteNotification(int id)
+        public async Task<bool> AddNotification(Notification notification)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _unitOfWork.NotiRepository.Add(notification);
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public async Task<IEnumerable<Notification>> GetAllByUser(int userId)
+        {
+            return await _unitOfWork.NotiRepository.GetAllByUser(userId);
         }
 
-        public Task<IEnumerable<Notification>> GetAll()
+        public async Task<Notification> GetNotification(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Notification> GetNotification(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateNotification(int id, Notification notification)
-        {
-            throw new NotImplementedException();
+            var a = await _unitOfWork.NotiRepository.GetById(id);
+            return await _unitOfWork.NotiRepository.GetById(id);
         }
     }
 }
