@@ -19,13 +19,12 @@ namespace CDEUnileverAPI.DTO
         public bool Status { get; set; }
         public DateTime DateCreated { get; set; }
     }
-    public class QuestionnaireDetailsDTO
+    public class ShowQuestionnaireDetailDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public bool Status { get; set; } = true;
         public DateTime DateCreated { get; set; }
-        public string QuestionnaireDetailQuestion { get; set; }
-        public ICollection<ShowQuestionDTO> Questions { get; set; }
+        public IEnumerable<QuestionnaireDetailDTO> Questions { get; set; }
     }
 }

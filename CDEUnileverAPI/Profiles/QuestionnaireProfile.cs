@@ -12,9 +12,9 @@ namespace CDEUnileverAPI.Profiles
             CreateMap<AddNewQuestionaireDTO, Questionnaire>().ReverseMap();
             CreateMap<ShowAllQuestionaireDTO, Questionnaire>().ReverseMap();
             CreateMap<AddNewQuestionDTO, QuestionnaireDetail>().ReverseMap();
-            CreateMap<Questionnaire, QuestionnaireDetailsDTO>().ReverseMap();
+            CreateMap<Questionnaire, ShowQuestionnaireDetailDTO>().ReverseMap();
 
-            CreateMap<QuestionnaireDetail, ShowQuestionDTO>().ReverseMap()
+            //CreateMap<QuestionnaireDetail, ShowQuestionDTO>().ReverseMap()
                 //.ForMember(dest => dest.QuestionnaireId, opt => opt.Ignore())
                 //.ForMember(dest => dest.Questionnaire, opt => opt.Ignore())
                 //.ForMember(dest => dest.Question, opt => opt.MapFrom(frm => frm.Question))
@@ -25,7 +25,7 @@ namespace CDEUnileverAPI.Profiles
                 //.ForMember(dest => dest.AnswerE, opt => opt.MapFrom(frm => frm.AnswerE))
                 //.ForMember(dest => dest.QuestionnairePart, opt => opt.MapFrom(frm => frm.QuestionarePart))
                 //.ForMember(dest => dest.IsMultipleAns, opt => opt.MapFrom(frm => frm.IsMultipleAns))
-                ;
+                //;
             CreateMap<ShowQuestionDTO, Questionnaire>().ReverseMap();
             //CreateMap<QuestionnaireDetail, ShowQuestionDTO>().ReverseMap();
         }

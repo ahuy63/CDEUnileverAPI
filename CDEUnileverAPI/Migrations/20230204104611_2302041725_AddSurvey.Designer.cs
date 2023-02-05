@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230204104611_2302041725_AddSurvey")]
+    partial class _2302041725AddSurvey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,7 +280,7 @@ namespace CDEUnileverAPI.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("QuestionnaireId")
+                    b.Property<int>("QuestionareId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -289,7 +292,7 @@ namespace CDEUnileverAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionnaireId");
+                    b.HasIndex("QuestionareId");
 
                     b.ToTable("Surveys");
                 });
@@ -572,13 +575,13 @@ namespace CDEUnileverAPI.Migrations
 
             modelBuilder.Entity("CDEUnileverAPI.Models.Survey", b =>
                 {
-                    b.HasOne("CDEUnileverAPI.Models.Questionnaire", "Questionnaire")
+                    b.HasOne("CDEUnileverAPI.Models.Questionnaire", "Questionare")
                         .WithMany()
-                        .HasForeignKey("QuestionnaireId")
+                        .HasForeignKey("QuestionareId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Questionnaire");
+                    b.Navigation("Questionare");
                 });
 
             modelBuilder.Entity("CDEUnileverAPI.Models.SurveyAnswer", b =>

@@ -8,12 +8,12 @@ namespace CDEUnileverAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SurveyController : ControllerBase
+    public class QuestionnaireController : ControllerBase
     {
         public IQuestionnaireService _questionaireService { get; set; }
         public IQuestionnaireDetailService _questionaireDetailService { get; set; }
         public readonly IMapper _mapper;
-        public SurveyController(IQuestionnaireService questionaireService, IQuestionnaireDetailService questionaireDetailService, IMapper mapper)
+        public QuestionnaireController(IQuestionnaireService questionaireService, IQuestionnaireDetailService questionaireDetailService, IMapper mapper)
         {
             _questionaireService = questionaireService;
             _questionaireDetailService = questionaireDetailService;
@@ -52,14 +52,14 @@ namespace CDEUnileverAPI.Controllers
         }
 
         [HttpGet("GetQuestionnaireDetails/{id}")]
-        public async Task<QuestionnaireDetailsDTO> GetQuestionaireDetails(int id)
+        public async Task<IActionResult> GetQuestionaireDetails(int id)
         {
             var questionnaireDetail = await _questionaireService.GetQuestionaire(id);
-            var questionnaireDetailDto = _mapper.Map<QuestionnaireDetailsDTO>(questionnaireDetail);
-            var b = questionnaireDetail.Questions.FirstOrDefault();
-            var a = _mapper.Map<ShowQuestionDTO>(b);
-            questionnaireDetailDto.Questions = _mapper.Map<ICollection<ShowQuestionDTO>>(questionnaireDetail.Questions);
-            return questionnaireDetailDto;
+            if (questionnaireDetail != null)
+            {
+                return Ok(questionnaireDetail);
+            }
+            return NotFound();
         }
 
         [HttpPost("Questionnaire/{questionnaireId}/AddQuestion")]
@@ -84,5 +84,7 @@ namespace CDEUnileverAPI.Controllers
             }
             return BadRequest();
         }
+
+
     }
 }

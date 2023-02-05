@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CDEUnileverAPI.Core.IConfiguration;
 using CDEUnileverAPI.Core.IServices;
+using CDEUnileverAPI.Models;
 
 namespace CDEUnileverAPI.Core.Services
 {
@@ -14,6 +15,9 @@ namespace CDEUnileverAPI.Core.Services
             _mapper = mapper;
         }
 
-
+        public async Task<IEnumerable<QuestionnaireDetail>> GetQuestionList(int questionnaireId)
+        {
+            return await _unitOfWork.QuestionaireDetailRepository.GetByQuestionnaire(questionnaireId);
+        }
     }
 }

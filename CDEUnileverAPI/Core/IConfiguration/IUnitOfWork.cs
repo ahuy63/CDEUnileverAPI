@@ -14,6 +14,9 @@ namespace CDEUnileverAPI.Core.IConfiguration
         IVisitPlanRepository VisitPlanRepository { get; }
         INotiRepository NotiRepository { get; }
         ICommentRepository CommentRepository { get; }
+        ISurveyRepository SurveyRepository { get; }
+        IParticipantRepository ParticipantRepository { get; }
+        ISurveyAnswerRepository SurveyAnswerRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();

@@ -2,7 +2,7 @@
 
 namespace CDEUnileverAPI.Core.IRepositories
 {
-    public interface INotificationRepository : IGenericRepository<Notification>
+    public interface ISurveyAnswerRepository : IGenericRepository<SurveyAnswer>
     {
     }
 }

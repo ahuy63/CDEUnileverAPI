@@ -18,5 +18,8 @@ namespace CDEUnileverAPI.Data
         public DbSet<JobTask> JobTasks { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Survey> Surveys { get; set;}
+        public DbSet<Survey_Participant> Survey_Participants { get;set; }
+        public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
     }
 }
