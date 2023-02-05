@@ -5,7 +5,7 @@ namespace CDEUnileverAPI.DTO
 {
     public class AddAreaDTO
     {
-        [Required]
+        [Required(ErrorMessage = "Area name is required")]
         public string Name { get; set; }
     }
     public class Area_UserDTO

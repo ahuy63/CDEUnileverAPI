@@ -24,7 +24,7 @@ namespace CDEUnileverAPI.Data
         public ISurveyRepository SurveyRepository { get; private set; }
         public IParticipantRepository ParticipantRepository { get; private set; }
         public ISurveyAnswerRepository SurveyAnswerRepository { get; private set; }
-
+        public ICMSRepository CMSRepository { get; private set; }
         public UnitOfWork(CDEUnileverDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
@@ -42,6 +42,7 @@ namespace CDEUnileverAPI.Data
             SurveyRepository = new SurveyRepository(_context, _logger);
             ParticipantRepository = new ParticipantRepository(_context, _logger);
             SurveyAnswerRepository = new SurveyAnswerRepository(_context, _logger);
+            CMSRepository = new CMSRepository(_context, _logger);
         }
         public void Commit() => _context.SaveChanges();
         public async Task CommitAsync() => await _context.SaveChangesAsync();

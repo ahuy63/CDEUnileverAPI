@@ -14,7 +14,10 @@ namespace CDEUnileverAPI.Controllers
         public ISurveyService _surveyService;
         public ISurveyAnswerService _surveyAnswerService;
         public IParticipantService _participantService;
-        public SurveysController(ISurveyService surveyService, ISurveyAnswerService surveyAnswerService, IParticipantService participantService, IMapper mapper)
+        public SurveysController(ISurveyService surveyService, 
+            ISurveyAnswerService surveyAnswerService, 
+            IParticipantService participantService, 
+            IMapper mapper)
         {
             _surveyService= surveyService;
             _surveyAnswerService= surveyAnswerService;

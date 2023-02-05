@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
@@ -21,11 +22,13 @@ namespace CDEUnileverAPI.Controllers
         private readonly CDEUnileverDbContext _context;
         public readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public AuthenticationController(CDEUnileverDbContext context, IConfiguration configuration, IMapper mapper)
+        public IUserService _userService;
+        public AuthenticationController(CDEUnileverDbContext context, IConfiguration configuration, IMapper mapper, IUserService userService)
         {
             _context = context;
             _configuration = configuration;
             _mapper = mapper;
+            _userService = userService;
         }
 
         [Route("Create")]
@@ -147,5 +150,15 @@ namespace CDEUnileverAPI.Controllers
             smtp.Disconnect(true);
             smtp.Dispose();
         }
+
+        //public async Task<bool> CheckEmail(string email)
+        //{
+        //    var user = await _userService.GetByEmail(email);
+        //    if (user == null)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

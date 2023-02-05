@@ -182,5 +182,10 @@ namespace CDEUnileverAPI.Core.Services
         {
             return await _unitOfWork.UserRepository.GetByAreaIdAsync(areaId);
         }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _unitOfWork.UserRepository.GetByEmail(email);
+        }
     }
 }

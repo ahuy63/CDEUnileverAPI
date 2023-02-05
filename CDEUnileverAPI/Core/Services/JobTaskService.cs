@@ -19,6 +19,14 @@ namespace CDEUnileverAPI.Core.Services
             try
             {
                 await _unitOfWork.JobTaskRepository.Add(jobTask);
+                var notification = new Notification
+                {
+                    UserId = jobTask.AssigneeId,
+                    Title = "New Task",
+                    Content = "New Task Assgined",
+                    SenderId = jobTask.CreatedById
+                };
+                await _unitOfWork.NotiRepository.Add(notification);
                 await _unitOfWork.CommitAsync();
                 return true;
             }
@@ -28,9 +36,25 @@ namespace CDEUnileverAPI.Core.Services
             }
         }
 
-        public Task<bool> DeleteJobTask(int id)
+        public async Task<bool> DeleteJobTask(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var jobTask = await _unitOfWork.JobTaskRepository.GetById(id);
+                if (jobTask != null)
+                {
+                    if (await _unitOfWork.JobTaskRepository.Delete(jobTask))
+                    {
+                        await _unitOfWork.CommitAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<JobTask>> GetAll()

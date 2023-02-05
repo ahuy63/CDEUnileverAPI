@@ -62,6 +62,7 @@ builder.Services.AddTransient(typeof(INotiService), typeof(NotiService));
 builder.Services.AddTransient(typeof(ISurveyService), typeof(SurveyService));
 builder.Services.AddTransient(typeof(IParticipantService), typeof(ParticipantService));
 builder.Services.AddTransient(typeof(ISurveyAnswerService), typeof(SurveyAnswerService));
+builder.Services.AddTransient(typeof(ICMSService), typeof(CMSService));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
 //    .AddEntityFrameworkStores<CDEUnileverDbContext>();

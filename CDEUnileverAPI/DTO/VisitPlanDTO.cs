@@ -1,15 +1,23 @@
 ﻿using CDEUnileverAPI.Models;
+using Microsoft.Build.Framework;
 
 namespace CDEUnileverAPI.DTO
 {
     public class VisitPlanDTO
     {
+        [Required]
         public string Name { get; set; }
+
+        [Required]
+        [ValidateYears]
         public IEnumerable<DateTime> Dates { get; set; }
+        [Required]
         public string Time { get; set; }
+        [Required]
         public int DistributorId { get; set; }
+        [Required]
         public string Purpose { get; set; }
-        public int GuestId { get; set; }
+        public int? GuestId { get; set; }
     }
     public class ShowVisitPlanListDTO
     {

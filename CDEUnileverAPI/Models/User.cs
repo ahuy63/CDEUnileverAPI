@@ -1,4 +1,6 @@
-﻿namespace CDEUnileverAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CDEUnileverAPI.Models
 {
     public class User
     {

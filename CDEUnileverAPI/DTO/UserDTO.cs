@@ -5,16 +5,23 @@ namespace CDEUnileverAPI.DTO
 {
     public class UserDTO
     {
-        [Required]
+        [Required(ErrorMessage = "Email is Required")]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-‌​]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Email is not valid")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Full name is Required")]
         public string FullName { get; set; }
-        [Required]
-        public int TitleId { get; set; }
-        [Required]
-        public int AreaId { get; set; }
-        [Required]
-        public int ReporterId { get; set; }
+
+        [Required(ErrorMessage = "Title is Required")]
+        public int? TitleId { get; set; }
+
+        [Required(ErrorMessage = "Area is Required")]
+        public int? AreaId { get; set; }
+
+        [Required(ErrorMessage = "Reporter is Required")]
+        public int? ReporterId { get; set; }
+
         public bool Status { get; set; } = true;
     }
     public class UserDetailsDTO

@@ -5,6 +5,7 @@ namespace CDEUnileverAPI.DTO
 {
     public class ShowAreaDTO
     {
+        public int Id { get; set; }
         [Required]
         public string Code { get; set; }
         [Required]

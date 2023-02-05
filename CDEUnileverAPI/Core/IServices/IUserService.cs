@@ -14,5 +14,6 @@ namespace CDEUnileverAPI.Core.IServices
         public Task<bool> UpdateUser(int id, User user);
         public Task<bool> UpdateUserPassword(int id, string password);
         public Task<bool> UpdateUserArea(User user, int? areaId);
+        Task<User> GetByEmail(string email);
     }
 }

@@ -13,8 +13,8 @@ using CDEUnileverAPI.Core.IServices;
 
 namespace CDEUnileverAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+        [Route("api/[controller]")]
+        [ApiController]
     public class AreasController : ControllerBase
     {
         public IAreaService _areaService { get; set; }
@@ -60,40 +60,54 @@ namespace CDEUnileverAPI.Controllers
             var area = _mapper.Map<Area>(areaDto);
             if (await _areaService.AddArea(area))
             {
-                return Ok();
+                return Ok("New Area has been created successfully");
             }
             else
             {
                 return BadRequest();
             }
-            //return CreatedAtAction("GetArea", new { id = mappedArea.Id });
         }
 
         // DELETE: api/Areas/5
         //[Route("DeleteArea/{id}")]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArea(int id)
+        [HttpDelete("Deletearea")]
+        public async Task<IActionResult> DeleteArea(IEnumerable<int> idList)
         {
-            if (await _areaService.DeleteArea(id))
+            try
             {
+                foreach (var item in idList)
+                {
+                    await _areaService.DeleteArea(item);
+                }
                 return NoContent();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
         }
 
         [HttpGet("{areaId}/GetUser")]
-        public async Task<IEnumerable<ShowArea_UserDTO>> GetAreaDetails_User(int areaId)
-        {
-            return _mapper.Map<IEnumerable<ShowArea_UserDTO>>(await _userService.GetUserByAreaId(areaId));
+        public async Task<IActionResult> GetAreaDetails_User(int areaId)
+        {   
+            var result = _mapper.Map<IEnumerable<ShowArea_UserDTO>>(await _userService.GetUserByAreaId(areaId));
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
+            //return _mapper.Map<IEnumerable<ShowArea_UserDTO>>(await _userService.GetUserByAreaId(areaId));
         }
 
         [HttpGet("{areaId}/GetDistributor")]
-        public async Task<IEnumerable<ShowArea_DistributorDTO>> GetAreaDetails_Distributor(int areaId)
+        public async Task<IActionResult> GetAreaDetails_Distributor(int areaId)
         {
-            return _mapper.Map<IEnumerable<ShowArea_DistributorDTO>>(await _distributorService.GetDistributorByAreaId(areaId));
+            var result = _mapper.Map<IEnumerable<ShowArea_DistributorDTO>>(await _distributorService.GetDistributorByAreaId(areaId));
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
         }
 
         [HttpPut("{areaId}/AssignUser")]

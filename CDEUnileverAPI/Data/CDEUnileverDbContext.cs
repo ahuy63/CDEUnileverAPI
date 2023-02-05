@@ -21,5 +21,6 @@ namespace CDEUnileverAPI.Data
         public DbSet<Survey> Surveys { get; set;}
         public DbSet<Survey_Participant> Survey_Participants { get;set; }
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }

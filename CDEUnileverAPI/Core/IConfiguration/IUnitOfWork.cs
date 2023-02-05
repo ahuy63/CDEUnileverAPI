@@ -17,6 +17,7 @@ namespace CDEUnileverAPI.Core.IConfiguration
         ISurveyRepository SurveyRepository { get; }
         IParticipantRepository ParticipantRepository { get; }
         ISurveyAnswerRepository SurveyAnswerRepository { get; }
+        ICMSRepository CMSRepository { get; }
         void Commit();
         void Rollback();
         Task CommitAsync();
