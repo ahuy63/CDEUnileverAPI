@@ -31,6 +31,10 @@ namespace CDEUnileverAPI.DTO
         public string Name { get; set; }
         public string Email { get; set; }
     }
+    public class ParticipantLoginDTO
+    {
+        public string Email { get; set; }
+    }
     public class ParticipantDetailDTO
     {
         public string Name { get; set; }

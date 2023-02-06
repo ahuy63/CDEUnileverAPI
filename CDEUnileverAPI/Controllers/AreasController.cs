@@ -10,6 +10,7 @@ using CDEUnileverAPI.Models;
 using AutoMapper;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Core.IServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CDEUnileverAPI.Controllers
 {
@@ -31,6 +32,7 @@ namespace CDEUnileverAPI.Controllers
 
         // GET: api/Areas
         [Route("GetAllArea")]
+        [Authorize(Roles = "owner, admin")]
         [HttpGet]
         public async Task<IEnumerable<ShowAreaDTO>> GetAll()
         {
@@ -40,6 +42,7 @@ namespace CDEUnileverAPI.Controllers
 
         // GET: api/Areas/5
         //[Route("GetArea/{id}")]
+        [Authorize(Roles = "owner, admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArea(int id)
         {
@@ -54,6 +57,7 @@ namespace CDEUnileverAPI.Controllers
         // POST: api/Areas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Route("AddArea")]
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
         public async Task<IActionResult> AddArea(AddAreaDTO areaDto)
         {
@@ -70,6 +74,7 @@ namespace CDEUnileverAPI.Controllers
 
         // DELETE: api/Areas/5
         //[Route("DeleteArea/{id}")]
+        [Authorize(Roles = "owner, admin")]
         [HttpDelete("Deletearea")]
         public async Task<IActionResult> DeleteArea(IEnumerable<int> idList)
         {
@@ -87,6 +92,7 @@ namespace CDEUnileverAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpGet("{areaId}/GetUser")]
         public async Task<IActionResult> GetAreaDetails_User(int areaId)
         {   
@@ -99,6 +105,7 @@ namespace CDEUnileverAPI.Controllers
             //return _mapper.Map<IEnumerable<ShowArea_UserDTO>>(await _userService.GetUserByAreaId(areaId));
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpGet("{areaId}/GetDistributor")]
         public async Task<IActionResult> GetAreaDetails_Distributor(int areaId)
         {
@@ -110,6 +117,7 @@ namespace CDEUnileverAPI.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpPut("{areaId}/AssignUser")]
         public async Task<IActionResult> AssignUserToArea(int areaId, int userId)
         {
@@ -118,11 +126,12 @@ namespace CDEUnileverAPI.Controllers
             {
                 user.AreaId = areaId;
                 await _userService.UpdateUserArea(user, areaId);
-                return Ok(_mapper.Map<ShowUserListDTO>(await _userService.GetUser(userId)));
+                return Ok("done");
             }
             return BadRequest();
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpPost("{areaId}/AddNewUserToArea")]
         public async Task<IActionResult> AddNewUserToArea(int areaId, AddNewUserToAreaDTO userDto)
         {
@@ -136,7 +145,8 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest(apiResponse.Message);
         }
 
-        [HttpPut("RemoveAssignedUser/{userId}")]
+        [Authorize(Roles = "owner, admin")]
+        [HttpPut("RemoveAssignedUser")]
         public async Task<IActionResult> RemoveUserFromArea(int userId)
         {
             var user = await _userService.GetUserDetails(userId);
@@ -144,7 +154,7 @@ namespace CDEUnileverAPI.Controllers
             {
                 user.AreaId = null;
                 await _userService.UpdateUserArea(user, null);
-                return Ok(_mapper.Map<ShowUserListDTO>(await _userService.GetUser(userId)));
+                return Ok("Done");
             }
             return BadRequest();
         }

@@ -29,16 +29,25 @@ namespace CDEUnileverAPI.Core.Services
 
         public async Task<bool> DeleteArticle(int id)
         {
-            var article = await _unitOfWork.CMSRepository.GetById(id);
-            if (article != null)
+            try
             {
-                if (await _unitOfWork.CMSRepository.Delete(article))
+                var article = await _unitOfWork.CMSRepository.GetById(id);
+                if (article != null)
                 {
-                    await _unitOfWork.CommitAsync();
-                    return true;
+                    if (await _unitOfWork.CMSRepository.Delete(article))
+                    {
+                        await _unitOfWork.CommitAsync();
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+
+                return false;
+            }
+            
         }
 
         public async Task<IEnumerable<Article>> GetAll()

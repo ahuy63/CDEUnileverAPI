@@ -2,6 +2,7 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CDEUnileverAPI.Controllers
@@ -18,12 +19,14 @@ namespace CDEUnileverAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("GetAllByUser/{userId}")]    
         public async Task<IActionResult> GetAllByUser(int userId)
         {
             return Ok(_mapper.Map<IEnumerable<ShowNotiListDTO>>(await _notiService.GetAllByUser(userId)));
         }
 
+        [Authorize]
         [HttpPost("CreateNotification")]
         public async Task<IActionResult> CreateNotification(NotificationDTO notificationDTO)
         {
@@ -34,6 +37,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpGet("GetNotification/{id}")]
         public async Task<IActionResult> GetNotification(int id)
         {

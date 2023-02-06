@@ -17,7 +17,7 @@ namespace CDEUnileverAPI.DTO
         [System.ComponentModel.DataAnnotations.Required]
         [MaxLength(150)]
         public string ShortDescription { get; set; }
-        public int CreatedById { get; set; }
+        //public int CreatedById { get; set; }
     }
 
     public class ShowArticleListDTO
@@ -41,7 +41,7 @@ namespace CDEUnileverAPI.DTO
         [System.ComponentModel.DataAnnotations.Required]
         [MaxLength(150)]
         public string ShortDescription { get; set; }
-        public int CreatedById { get; set; }
+        //public int CreatedById { get; set; }
     }
 
     public class ArticleDetailDTO

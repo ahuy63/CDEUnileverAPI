@@ -2,6 +2,7 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CDEUnileverAPI.Controllers
@@ -20,6 +21,7 @@ namespace CDEUnileverAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("GetAllQuestionaires")]
         public async Task<IEnumerable<ShowAllQuestionaireDTO>> GetAllQuestionaires()
         {
@@ -28,7 +30,7 @@ namespace CDEUnileverAPI.Controllers
 
         //[HttpGet("{id}")]
         //public async Task<>
-
+        [Authorize]
         [HttpPost("AddNewQuestionnaire")]
         public async Task<IActionResult> AddNewQuestionaire(AddNewQuestionaireDTO questionaireDto)
         {
@@ -40,6 +42,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("UpdateQuestionnaire/{id}")]
         public async Task<IActionResult> UpdateQuesntionaireTitle(int id, AddNewQuestionaireDTO questionaireDto)
         {
@@ -51,6 +54,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpGet("GetQuestionnaireDetails/{id}")]
         public async Task<IActionResult> GetQuestionaireDetails(int id)
         {
@@ -62,6 +66,7 @@ namespace CDEUnileverAPI.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [HttpPost("Questionnaire/{questionnaireId}/AddQuestion")]
         public async Task<IActionResult> AddQuestiontoQuestionaire(int questionnaireId,AddNewQuestionDTO addNewQuestionDTO)
         {
@@ -74,6 +79,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("UpdateQuestion/{id}")]
         public async Task<IActionResult> UpdateQuestion(int id, AddNewQuestionDTO questionDto)
         {

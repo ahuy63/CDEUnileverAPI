@@ -49,7 +49,7 @@ namespace CDEUnileverAPI.Core.Services
                         return true;
                     }
                 }
-                return false;
+                return false;   
             }
             catch (Exception)
             {
@@ -72,9 +72,24 @@ namespace CDEUnileverAPI.Core.Services
             return await _unitOfWork.JobTaskRepository.GetById(id);
         }
 
-        public Task<bool> UpdateJobTask(int id, JobTask jobTask)
+        public async Task<IEnumerable<JobTask>> Search(string keyword)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.JobTaskRepository.Search(keyword);
         }
+
+        public async Task<bool> UpdateJobTask(JobTask jobTask)
+        {
+            try
+            {
+                await _unitOfWork.JobTaskRepository.Update(jobTask);
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

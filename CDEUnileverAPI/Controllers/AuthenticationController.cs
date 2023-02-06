@@ -5,6 +5,7 @@ using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
@@ -31,6 +32,7 @@ namespace CDEUnileverAPI.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "owner, admin")]
         [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create(UserDTO userDTO)
@@ -70,7 +72,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
-
+        [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
         public IActionResult Login(UserLoginDTO userDTO)
@@ -95,12 +97,31 @@ namespace CDEUnileverAPI.Controllers
             });
         }
 
-        //[HttpPost]
-        //public IActionResult SendMail(string email)
-        //{
-        //    SendEmail(email, RandomString(10));
-        //    return Ok();
-        //}
+        [AllowAnonymous]
+        [Route("ParticipantLogin")]
+        [HttpPost]
+        public IActionResult ParticipantLogin(ParticipantLoginDTO participantDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var participant = _context.Survey_Participants.SingleOrDefault(u => u.Email == participantDTO.Email);
+                if (participant != null)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Result = true,
+                        Message = "Success",
+                        Token = GenerateJwtTokenForParticipant(participant)
+                    });
+                }
+            }
+            return BadRequest(new ApiResponse
+            {
+                Result = false,
+                Message = "Wrong Credential"
+            });
+        }
+
         private string GenerateJwtToken(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -109,12 +130,33 @@ namespace CDEUnileverAPI.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", user.Id.ToString()),
-                    new Claim("Email", user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                    new Claim("TokenId", Guid.NewGuid().ToString())
+                    new Claim("TokenId", Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.Role, user.Role) 
+
 
                     //role
+                }),
+                Expires = DateTime.UtcNow.AddSeconds(20),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDecriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
+
+        private string GenerateJwtTokenForParticipant(Survey_Participant participant)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig:Secret").Value);
+            var tokenDecriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, participant.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                    new Claim("TokenId", Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.Role, participant.Role)
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
@@ -150,15 +192,5 @@ namespace CDEUnileverAPI.Controllers
             smtp.Disconnect(true);
             smtp.Dispose();
         }
-
-        //public async Task<bool> CheckEmail(string email)
-        //{
-        //    var user = await _userService.GetByEmail(email);
-        //    if (user == null)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
     }
 }

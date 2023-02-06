@@ -2,7 +2,9 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CDEUnileverAPI.Controllers
 {
@@ -25,7 +27,7 @@ namespace CDEUnileverAPI.Controllers
             _mapper=mapper;
         }
 
-
+        [Authorize]
         [HttpGet("GetAllSurvey")]
         public async Task<IActionResult> GetAll()
         {
@@ -38,6 +40,7 @@ namespace CDEUnileverAPI.Controllers
             return Ok(surveyListDTO);
         }
 
+        [Authorize]
         [HttpPost("CreateSurveyRequest")]
         public async Task<IActionResult> CreateSurveyRequest(SurveyDTO surveyDto)
         {
@@ -48,6 +51,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSurveyResult(int id)
         {
@@ -57,6 +61,23 @@ namespace CDEUnileverAPI.Controllers
                 return Ok(result);
             }
             return NotFound();
+        }
+
+
+        private User GetCurrentUser()
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaim = identity.Claims;
+
+                return new User
+                {
+                    Id = Int32.Parse(userClaim.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value),
+                    Role = userClaim.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value
+                };
+            }
+            return null;
         }
     }
 }

@@ -2,6 +2,7 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CDEUnileverAPI.Controllers
@@ -20,13 +21,14 @@ namespace CDEUnileverAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("GetAllVisitPlan")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(_mapper.Map<IEnumerable<ShowVisitPlanListDTO>>(await _visitPlanService.GetAll()));
         }
 
-
+        [Authorize]
         [HttpGet("VisitPlanDetail/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -39,6 +41,7 @@ namespace CDEUnileverAPI.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [HttpPost("CreateVisitPlan")]
         public async Task<IActionResult> CreateVisitPlan(VisitPlanDTO visitPlanDto)
         {
@@ -54,6 +57,13 @@ namespace CDEUnileverAPI.Controllers
             //var visitPlan = _mapper.Map<VisitPlan>(visitPlanDto);
             return StatusCode(StatusCodes.Status201Created, visitPlanDto);
             
+        }
+
+        [Authorize]
+        [HttpGet("Search/{keyword}")]
+        public async Task<IActionResult> Search(string keyword)
+        {
+            return Ok(_mapper.Map<IEnumerable<ShowVisitPlanListDTO>>(await _visitPlanService.Search(keyword)));
         }
     }
 }

@@ -4,8 +4,10 @@ using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace CDEUnileverAPI.Controllers
 {
@@ -20,12 +22,14 @@ namespace CDEUnileverAPI.Controllers
             _titleService= titleService;
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpGet]
         public async Task<IEnumerable<TitleDTO>> GetAll()
         {
             return await _titleService.GetAll();
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetbyId(int id)
         {
@@ -39,6 +43,7 @@ namespace CDEUnileverAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpPost]
         public async Task<IActionResult> Create(TitleDTO titleDto)
         {
@@ -49,6 +54,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "owner, admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, TitleDTO titleDto)
         {
@@ -59,7 +65,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
-
+        [Authorize(Roles = "owner, admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -2,7 +2,9 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CDEUnileverAPI.Controllers
 {
@@ -12,17 +14,20 @@ namespace CDEUnileverAPI.Controllers
     {
         public ICMSService _cmsService { get; set; }
         public readonly IMapper _mapper;
+        
         public CMSController(ICMSService cmsService, IMapper mapper) { 
             _cmsService = cmsService;
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet("GetAllArticle")]
         public async Task<IActionResult> GetAllArticle()
         {
             return Ok(_mapper.Map<IEnumerable<ShowArticleListDTO>>( await _cmsService.GetAll()));
         }
 
+        [Authorize]
         [HttpGet("GetArticle/{id}")]
         public async Task<IActionResult> GetArticle(int id)
         {
@@ -34,16 +39,21 @@ namespace CDEUnileverAPI.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [HttpPost("AddArticle")]
         public async Task<IActionResult> AddArticle(ArticleDTO articleDto)
         {
-            if (await _cmsService.AddArticle(_mapper.Map<Article>(articleDto)))
+            var article = _mapper.Map<Article>(articleDto);
+            var currentUser = GetCurrentUser();
+            article.CreatedById =  currentUser.Id;
+            if (await _cmsService.AddArticle(article))
             {
                 return Ok("New Article has been created successfully"); 
             }
             return BadRequest();
         }
 
+        [Authorize]
         [HttpDelete("DeleteArticle/{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
@@ -54,18 +64,22 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("EditArticle/{id}")]
         public async Task<IActionResult> UpdateArticle(int id, UpdateArticleDTO articleDto)
         {
-            var mappedArticle = _mapper.Map<Article>(articleDto);
-            mappedArticle.Id = id;
-            if (await _cmsService.UpdateArticle(mappedArticle))
+            var article = await _cmsService.GetArticle(id);
+            //var mappedArticle = _mapper.Map<Article>(articleDto);
+            _mapper.Map<UpdateArticleDTO, Article>(articleDto, article);
+            article.Id = id;
+            if (await _cmsService.UpdateArticle(article))
             {
                 return Ok("Update successfully");
             }
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("PublishArticle/{id}")]
         public async Task<IActionResult> PublishArticle(int id)
         {
@@ -78,6 +92,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("UnpublishArticle/{id}")]
         public async Task<IActionResult> UnpublishArticle(int id)
         {
@@ -90,5 +105,21 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+
+        private User GetCurrentUser()
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaim = identity.Claims;
+
+                return new User
+                {
+                    Id = Int32.Parse(userClaim.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value),
+                    Role = userClaim.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value
+                };
+            }
+            return null;
+        }
     }
 }

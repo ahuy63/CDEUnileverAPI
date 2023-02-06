@@ -21,7 +21,12 @@ namespace CDEUnileverAPI.Core.Repositories
         }
         public override async Task<JobTask> GetById(int id)
         {
-            return await _dbSet.Where(x => x.Id == id).Include(x => x.Assignee).Include(x => x.Comments).Include(x => x.CreatedBy).FirstOrDefaultAsync();
+            return await _dbSet.Where(x => x.Id == id).Include(x => x.Assignee).Include(x => x.Comments).ThenInclude(x => x.User).Include(x => x.CreatedBy).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<JobTask>> Search(string keyword)
+        {
+            return await _dbSet.Where(x => x.Title.Contains(keyword)).ToListAsync();
         }
     }
 }

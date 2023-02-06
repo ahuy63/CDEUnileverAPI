@@ -44,6 +44,11 @@ namespace CDEUnileverAPI.Core.Services
             return await _unitOfWork.VisitPlanRepository.GetById(id);
         }
 
+        public async Task<IEnumerable<VisitPlan>> Search(string keyword)
+        {
+            return await _unitOfWork.VisitPlanRepository.Search(keyword);
+        }
+
         public Task<bool> UpdateVisitPlan(int id, VisitPlan visitPlan)
         {
             throw new NotImplementedException();

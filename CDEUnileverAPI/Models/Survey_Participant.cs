@@ -8,7 +8,7 @@
         public int SurveyId { get; set; }
         public Survey Survey { get; set;}
         public bool IsCompleted { get; set; } = false;
-
+        public string? Role { get; set; } = "Participant";
         public ICollection<SurveyAnswer>? Answers { get; set; }
         
     }

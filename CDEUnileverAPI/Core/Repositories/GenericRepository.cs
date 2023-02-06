@@ -36,22 +36,6 @@ namespace CDEUnileverAPI.Core.Repositories
             return true;
         }
 
-        //public virtual async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
-        //{
-        //    try
-        //    {
-        //        var list = await _dbSet.ToListAsync();
-        //        if (list != null)
-        //        {
-        //            return list;
-        //        }
-        //        return new List<T>();
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.LogError(ex, "", typeof(AreaRepository));
-        //        return new List<T>();
-        //    }
-        //}
+        //public virtual async Task<IEnumerable<T>> Search(string keyword) => await _dbSet.Where(x => x.Equals(keyword)).ToListAsync();
     }
 }

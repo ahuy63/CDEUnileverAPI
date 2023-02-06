@@ -79,4 +79,11 @@ namespace CDEUnileverAPI.DTO
         public int ReporterId { get; set; }
         public bool Status { get; set; } = true;
     }
+
+    public class CurrentUserDTO
+    {
+        public int Id { get; set; }
+        public string Fullname { get; set; }
+        public string Role { get; set;}
+    }
 }

@@ -10,5 +10,7 @@ namespace CDEUnileverAPI.Core.IServices
         public Task<VisitPlan> GetVisitPlan(int id);
         public Task<bool> DeleteVisitPlan(int id);
         public Task<bool> UpdateVisitPlan(int id, VisitPlan visitPlan);
+
+        Task<IEnumerable<VisitPlan>> Search(string keyword);
     }
 }

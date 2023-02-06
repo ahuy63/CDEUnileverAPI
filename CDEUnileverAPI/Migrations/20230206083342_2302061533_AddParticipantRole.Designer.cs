@@ -4,6 +4,7 @@ using CDEUnileverAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CDEUnileverAPI.Migrations
 {
     [DbContext(typeof(CDEUnileverDbContext))]
-    partial class CDEUnileverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230206083342_2302061533_AddParticipantRole")]
+    partial class _2302061533AddParticipantRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

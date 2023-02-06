@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CDEUnileverAPI.Core.IConfiguration;
 using CDEUnileverAPI.Core.IServices;
+using CDEUnileverAPI.Core.Services;
 using CDEUnileverAPI.Data;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CDEUnileverAPI.Controllers
@@ -20,6 +22,7 @@ namespace CDEUnileverAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "owner, admin")]
         [Route("GetAllUsers")]
         [HttpGet]
         public async Task<IEnumerable<ShowUserListDTO>> GetAll()
@@ -27,8 +30,26 @@ namespace CDEUnileverAPI.Controllers
             return _mapper.Map<IEnumerable<ShowUserListDTO>>( await _userService.GetAll());
         }
 
-        //[Route("GetUser/{id}")]
-        [HttpGet("{id}")]
+        [Authorize(Roles = "owner, admin")]
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(IEnumerable<int> userIdList)
+        {
+            try
+            {
+                foreach (var item in userIdList)
+                {
+                    await _userService.DeleteUser(item);
+                }
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetUser/{id}")]
         public async Task<IActionResult> GetbyId(int id)
         {
             var user = await _userService.GetUser(id);
@@ -42,6 +63,7 @@ namespace CDEUnileverAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}/ChangeInfo")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO updateUserDto)
         {
@@ -53,6 +75,7 @@ namespace CDEUnileverAPI.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut("{id}/ChangePassword")]
         public async Task<IActionResult> UpdateUserPassword(int id, string newPassword)
         {

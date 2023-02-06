@@ -8,7 +8,8 @@ namespace CDEUnileverAPI.Profiles
     {
         public CommentProfile()
         {
-            CreateMap<ShowCommentListDTO,Comment>().ReverseMap();
+            CreateMap<ShowCommentListDTO,Comment>().ReverseMap()
+                .ForMember(dest => dest.UserFullName, opt => opt.MapFrom(frm => frm.User.FullName));
             CreateMap<CommentDTO,Comment>().ReverseMap();
 
         }

@@ -2,7 +2,7 @@
 {
     public class CommentDTO
     {
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
         public string Content { get; set; }
         public float Rating { get; set; } = 0;
     }

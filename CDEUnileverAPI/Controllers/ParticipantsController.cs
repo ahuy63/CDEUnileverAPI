@@ -2,7 +2,9 @@
 using CDEUnileverAPI.Core.IServices;
 using CDEUnileverAPI.DTO;
 using CDEUnileverAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CDEUnileverAPI.Controllers
 {
@@ -23,15 +25,34 @@ namespace CDEUnileverAPI.Controllers
         }
 
 
-        [HttpPost("{participantId}/Survey/")]
-        public async Task<IActionResult> SurveyAnswer(int participantId,IEnumerable<SurveyAnswerDTO> ansDto)
+        [Authorize(Roles = "Participant")]
+        [HttpPost("DoSurvey/")]
+        public async Task<IActionResult> SurveyAnswer(IEnumerable<SurveyAnswerDTO> ansDto)
         {
             var answers = _mapper.Map<IEnumerable<SurveyAnswer>>(ansDto);
-            if (await _surveyService.SurveyAnswer(participantId,answers))
+            var currentUser = GetCurrentUser();
+            if (await _surveyService.SurveyAnswer(currentUser.Id,answers))
             {
                 return StatusCode(StatusCodes.Status201Created);
             }
             return BadRequest();
+        }
+
+
+        private User GetCurrentUser()
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaim = identity.Claims;
+
+                return new User
+                {
+                    Id = Int32.Parse(userClaim.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value),
+                    Role = userClaim.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value
+                };
+            }
+            return null;
         }
     }
 }
